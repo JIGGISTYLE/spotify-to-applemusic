@@ -7,6 +7,9 @@ CLIENT_SECRET="25ff69e60cc64bddb6e23121029a5b51"
 
 client_id=CLIENT_ID
 response_type="code"
-redirect_url="http localhost wali chiz "
+redirect_uri="http://127.0.0.1:8000/" # use uri not url
 state=Genrate_random_string(16)
 scope="playlist-read-private"
+
+
+params = {"client_id":client_id, "response_type":response_type, "scope":scope, "state":state, "redirect_uri":redirect_uri}
