@@ -9,6 +9,8 @@ from main import params,state,CLIENT_ID,CLIENT_SECRET,redirect_uri
 import base64
 import requests
 
+from typing import Annotated
+
 app=FastAPI()
 
 @app.get("/")
@@ -25,10 +27,11 @@ def request_auth(): # login
 original_state=state
 
 @app.get("/callback")
-def request_access_token():
-    code: str = Query(None)
-    state: str = Query(None)
-    error: str = Query(None)
+def request_access_token(
+    code: Annotated[str | None, Query()] = None,
+    state: Annotated[str | None, Query()] = None,
+    error:Annotated[str | None, Query()] = None
+    ):
 
     if error :
         raise HTTPException (status_code=400,detail=f"spotify error {error}")
@@ -40,19 +43,19 @@ def request_access_token():
     # preparing post request to token endpoint
 
     #header
-    credential={CLIENT_ID:CLIENT_SECRET}
-    base64_credential= base64.b64(credential.encode("utf-8")).decode("utf-8")
-    header={"Authorization":f"basic {base64_credential}", "content-type":"application/x-www-form-urlencoded"}
+    credential={f"{CLIENT_ID}:{CLIENT_SECRET}"}
+    base64_credential= base64.b64encode(credential.encode("utf-8")).decode("utf-8")
+    header={"Authorization":f"Basic {base64_credential}", "content-type":"application/x-www-form-urlencoded"}
     
     #body
     body={"grant_type":"authorization_code", "code":code ,"redirect_uri":redirect_uri}
 
     # posting
-    token_url='https://accounts.spotify.com/api/token'
+    token_url="https://accounts.spotify.com/api/token"
 
     try:
         response=requests.post(url=token_url,headers=header,data=body)
-        response_data=response.json
+        response_data=response.json()
 
 
         if response.status_code!=200 :
