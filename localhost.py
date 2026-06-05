@@ -11,11 +11,19 @@ import requests
 
 from typing import Annotated
 
+import re
+
+
 app=FastAPI()
 
 @app.get("/")
 def home():
     return {"message":"spotify to apple music"}
+
+
+
+
+
 
 @app.get("/convert")
 def request_auth(): # login
@@ -23,8 +31,8 @@ def request_auth(): # login
     spotify_auth_url=f"https://accounts.spotify.com/authorize?{url_part}"
     return RedirectResponse(url=spotify_auth_url)
 
-
 original_state=state
+
 
 @app.get("/callback")
 def request_access_token(
@@ -36,14 +44,14 @@ def request_access_token(
     if error :
         raise HTTPException (status_code=400,detail=f"spotify error {error}")
     if state!=original_state or (not state) :
-        raise HTTPException (status_code=400 , detail ="state_mismatch")
+        raise HTTPException (status_code=400 , detail =f"state_mismatch   {original_state},{state}")
     if not code:
         raise HTTPException (status_code=400 , detail="authcode not found")
 
     # preparing post request to token endpoint
 
     #header
-    credential={f"{CLIENT_ID}:{CLIENT_SECRET}"}
+    credential=f"{CLIENT_ID}:{CLIENT_SECRET}"
     base64_credential= base64.b64encode(credential.encode("utf-8")).decode("utf-8")
     header={"Authorization":f"Basic {base64_credential}", "content-type":"application/x-www-form-urlencoded"}
     
@@ -52,7 +60,6 @@ def request_access_token(
 
     # posting
     token_url="https://accounts.spotify.com/api/token"
-
     try:
         response=requests.post(url=token_url,headers=header,data=body)
         response_data=response.json()
@@ -72,3 +79,6 @@ def request_access_token(
 
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"netowk error {str(e)}")
+
+
+
