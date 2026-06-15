@@ -12,7 +12,7 @@ def Genrate_random_string(length):
 def get_playlist_from_spotify(access_token,playlist_id):
 
     url=f"https://api.spotify.com/v1/playlists/{playlist_id}"
-    header={"Authorization ":f"Bearer {access_token}"}
+    header={"Authorization":f"Bearer {access_token}"}
     try:
         response=requests.get(url,headers=header)
         if response.status_code==200:

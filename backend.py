@@ -74,9 +74,9 @@ def request_access_token(
         expires_in = response_data.get("expires_in")
         refresh_token = response_data.get("refresh_token")
 
-        return {"status":"authentiction succesfull","access_token":access_token,"token_type":token_type, "scope":scope, 
-        "expires_in":expires_in, "refresh_token":refresh_token}
-
+        # return {"status":"authentiction succesfull","access_token":access_token,"token_type":token_type, "scope":scope, "expires_in":expires_in, "refresh_token":refresh_token}
+        streamlit_frontend_url=f"http://localhost:8501/?access_token={access_token}"
+        return RedirectResponse(url=streamlit_frontend_url)
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"netowk error {str(e)}")
 
