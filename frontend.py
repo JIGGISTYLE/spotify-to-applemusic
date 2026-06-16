@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
-from functions import get_playlist_from_spotify
-
+from functions import get_playlist_from_spotify, get_playlist_id
 backend_url = "http://127.0.0.1:8000"
 
 st.title("Convert Your Spotify Playlist")
@@ -38,8 +37,8 @@ else:
     if st.button("Convert Playlist"):
         if link:
             st.write("Processing your playlist...")
-            # Future logic: Extract playlist ID from the link and fetch data
-            # playlist_id = get_playlist_id(link)
-            # data = get_playlist_from_spotify(st.session_state.access_token, playlist_id)
+            playlist_id = get_playlist_id(link)
+            data = get_playlist_from_spotify(st.session_state.access_token, playlist_id)
+            st.write(data)
         else:
             st.warning("Please enter a valid playlist link.")

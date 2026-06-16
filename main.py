@@ -1,7 +1,9 @@
 from functions import Genrate_random_string
-
-CLIENT_ID="13819ba30de24038a805408db081d31b"
-CLIENT_SECRET="25ff69e60cc64bddb6e23121029a5b51"
+import os
+# pyrefly: ignore [missing-import]
+from dotenv import load_dotenv
+CLIENT_ID=os.getenv("CLIENT_ID")
+CLIENT_SECRET=os.getenv("CLIENT_SECRET")
 
 # REQUEST USER AUTHERIZAION - https://developer.spotify.com/documentation/web-api/tutorials/code-flow
 

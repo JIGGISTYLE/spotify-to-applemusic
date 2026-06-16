@@ -11,17 +11,13 @@ import requests
 
 from typing import Annotated
 
-import re
-
+from routers import router as youtube_router
 
 app=FastAPI()
 
 @app.get("/")
 def home():
-    return {"message":"spotify to apple music"}
-
-
-
+    return {"message":"spotify to yt music"}
 
 
 
@@ -69,10 +65,10 @@ def request_access_token(
             return { "error":"faild to exchange token", "spotify detail":response_data}
 
         access_token = response_data.get("access_token") 
-        token_type = response_data.get("token_type")
-        scope = response_data.get("scope")
-        expires_in = response_data.get("expires_in")
-        refresh_token = response_data.get("refresh_token")
+        # token_type = response_data.get("token_type")
+        # scope = response_data.get("scope")
+        # expires_in = response_data.get("expires_in")
+        # refresh_token = response_data.get("refresh_token")
 
         # return {"status":"authentiction succesfull","access_token":access_token,"token_type":token_type, "scope":scope, "expires_in":expires_in, "refresh_token":refresh_token}
         streamlit_frontend_url=f"http://localhost:8501/?access_token={access_token}"
@@ -81,4 +77,5 @@ def request_access_token(
         raise HTTPException(status_code=500, detail=f"netowk error {str(e)}")
 
 
-
+# include all other router endpoint to main app , prefix for youtube specific functions
+app.include_router(youtube_router,prefix="/youtube")

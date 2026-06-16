@@ -22,9 +22,9 @@ def get_playlist_from_spotify(access_token,playlist_id):
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Network error: {str(e)}")
 
-def get_playlist_id():
-    playlist_link=input("enter link") #https://open.spotify.com/playlist/3QoWh6CX1qHA4HH0TqEuCw?si=cVOFpwANSoWapZbr5zekVQ
-    path = urllib.parse.urlparse(playlist_link).path # to get only /playlist/3QoWh6CX1qHA4HH0TqEuCw
+def get_playlist_id(playlist_link):
+    # playlist_link=input("enter link") #https://open.spotify.com/playlist/3QoWh6CX1qHA4HH0TqEuCw?si=cVOFpwANSoWapZbr5zekVQ
+    path = urllib.parse.urlparse(playlist_link).path # to get only "/playlist/3QoWh6CX1qHA4HH0TqEuCw"
     playlist_id = path.split("/playlist/")[1]
     return playlist_id
 
