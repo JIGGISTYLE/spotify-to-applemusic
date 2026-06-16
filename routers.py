@@ -12,7 +12,7 @@ import requests
 
 import time
 
-
+load_dotenv()
 router=APIRouter()
 
 

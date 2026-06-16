@@ -2,6 +2,8 @@ from functions import Genrate_random_string
 import os
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
+
+load_dotenv()
 CLIENT_ID=os.getenv("CLIENT_ID")
 CLIENT_SECRET=os.getenv("CLIENT_SECRET")
 
